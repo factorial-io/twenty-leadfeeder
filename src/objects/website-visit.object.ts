@@ -1,0 +1,198 @@
+import {
+  defineObject,
+  FieldType,
+  NumberDataType,
+  OnDeleteAction,
+  RelationType,
+  STANDARD_OBJECT_UNIVERSAL_IDENTIFIERS,
+} from 'twenty-sdk/define';
+
+import { INTENT_TIER_OPTIONS } from 'src/constants/intent-tier';
+import {
+  COMPANY_FIELDS,
+  WEBSITE_VISIT_FIELDS,
+  WEBSITE_VISIT_OBJECT_UNIVERSAL_IDENTIFIER,
+} from 'src/constants/universal-identifiers';
+
+const SYNCED_VALUE = {
+  disabledFieldPermissionActions: ['canUpdateFieldValue' as const],
+};
+
+export default defineObject({
+  universalIdentifier: WEBSITE_VISIT_OBJECT_UNIVERSAL_IDENTIFIER,
+  nameSingular: 'websiteVisit',
+  namePlural: 'websiteVisits',
+  labelSingular: 'Website Visit',
+  labelPlural: 'Website Visits',
+  description: 'A visit to our website by an identified company (Leadfeeder)',
+  icon: 'IconWorldWww',
+  // Synced from Leadfeeder: users cannot delete visits or change synced
+  // values. They can move a visit to another company, which merging
+  // companies needs and which also fixes a wrong match.
+  disabledObjectPermissionActions: [
+    'canSoftDeleteObjectRecords',
+    'canDestroyObjectRecords',
+  ],
+  fields: [
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.company,
+      name: 'company',
+      type: FieldType.RELATION,
+      label: 'Company',
+      icon: 'IconBuildingSkyscraper',
+      relationTargetObjectMetadataUniversalIdentifier:
+        STANDARD_OBJECT_UNIVERSAL_IDENTIFIERS.company.universalIdentifier,
+      relationTargetFieldMetadataUniversalIdentifier:
+        COMPANY_FIELDS.websiteVisits,
+      universalSettings: {
+        relationType: RelationType.MANY_TO_ONE,
+        onDelete: OnDeleteAction.CASCADE,
+        joinColumnName: 'companyId',
+      },
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.visitedAt,
+      ...SYNCED_VALUE,
+      name: 'visitedAt',
+      type: FieldType.DATE_TIME,
+      label: 'Visited at',
+      icon: 'IconCalendarEvent',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.intentTier,
+      ...SYNCED_VALUE,
+      name: 'intentTier',
+      type: FieldType.SELECT,
+      label: 'Intent tier',
+      description: 'Leadfeeder intent tier at import time',
+      icon: 'IconFlame',
+      options: INTENT_TIER_OPTIONS,
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.intentScore,
+      ...SYNCED_VALUE,
+      name: 'intentScore',
+      type: FieldType.NUMBER,
+      label: 'Intent score',
+      description: 'Leadfeeder intent score (0–10) at import time',
+      icon: 'IconFlame',
+      universalSettings: { dataType: NumberDataType.FLOAT, decimals: 1 },
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.hasOpenOpportunity,
+      ...SYNCED_VALUE,
+      name: 'hasOpenOpportunity',
+      type: FieldType.BOOLEAN,
+      label: 'Open opportunity',
+      description: 'The company had an open opportunity when the visit was imported',
+      icon: 'IconTargetArrow',
+      isNullable: false,
+      defaultValue: false,
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.formSubmitted,
+      ...SYNCED_VALUE,
+      name: 'formSubmitted',
+      type: FieldType.BOOLEAN,
+      label: 'Form submitted',
+      description: 'A form was submitted during the visit (the submitted values are not stored)',
+      icon: 'IconMail',
+      isNullable: false,
+      defaultValue: false,
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.landingPage,
+      ...SYNCED_VALUE,
+      name: 'landingPage',
+      type: FieldType.TEXT,
+      label: 'Landing page',
+      icon: 'IconDoorEnter',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.pages,
+      ...SYNCED_VALUE,
+      name: 'pages',
+      type: FieldType.TEXT,
+      label: 'Pages',
+      description: 'Visited pages in order, with page titles',
+      icon: 'IconFiles',
+      universalSettings: { displayedMaxRows: 10 },
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.pageDepth,
+      ...SYNCED_VALUE,
+      name: 'pageDepth',
+      type: FieldType.NUMBER,
+      label: 'Page depth',
+      icon: 'IconStack2',
+      universalSettings: { dataType: NumberDataType.INT, decimals: 0 },
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.durationSeconds,
+      ...SYNCED_VALUE,
+      name: 'durationSeconds',
+      type: FieldType.NUMBER,
+      label: 'Duration (seconds)',
+      icon: 'IconClock',
+      universalSettings: { dataType: NumberDataType.INT, decimals: 0 },
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.visitLocation,
+      ...SYNCED_VALUE,
+      name: 'visitLocation',
+      type: FieldType.TEXT,
+      label: 'Visit location',
+      description: 'City and country the visit came from',
+      icon: 'IconMapPin',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.source,
+      ...SYNCED_VALUE,
+      name: 'source',
+      type: FieldType.TEXT,
+      label: 'Source',
+      icon: 'IconArrowBigRightLines',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.medium,
+      ...SYNCED_VALUE,
+      name: 'medium',
+      type: FieldType.TEXT,
+      label: 'Medium',
+      icon: 'IconAntenna',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.campaign,
+      ...SYNCED_VALUE,
+      name: 'campaign',
+      type: FieldType.TEXT,
+      label: 'Campaign',
+      icon: 'IconSpeakerphone',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.referringUrl,
+      ...SYNCED_VALUE,
+      name: 'referringUrl',
+      type: FieldType.TEXT,
+      label: 'Referring URL',
+      icon: 'IconLink',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.leadfeederLink,
+      ...SYNCED_VALUE,
+      name: 'leadfeederLink',
+      type: FieldType.LINKS,
+      label: 'Leadfeeder',
+      icon: 'IconExternalLink',
+    },
+    {
+      universalIdentifier: WEBSITE_VISIT_FIELDS.leadfeederVisitId,
+      name: 'leadfeederVisitId',
+      type: FieldType.TEXT,
+      label: 'Leadfeeder visit ID',
+      icon: 'IconId',
+      // Technical sync key: hidden from users, still used by the app.
+      disabledFieldPermissionActions: ['canReadFieldValue', 'canUpdateFieldValue'],
+    },
+  ],
+});

@@ -1,0 +1,53 @@
+{
+  "name": "twenty-leadfeeder",
+  "version": "1.1.0",
+  "description": "Twenty CRM app that syncs Leadfeeder (Dealfront) website visits to companies, with timeline entries, review tasks and a sales dashboard",
+  "license": "MPL-2.0",
+  "author": "Factorial GmbH (https://www.factorial.io)",
+  "homepage": "https://github.com/factorial-io/twenty-leadfeeder#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/factorial-io/twenty-leadfeeder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/factorial-io/twenty-leadfeeder/issues"
+  },
+  "engines": {
+    "node": "^24.5.0 || ^26.5.1",
+    "npm": "please-use-yarn",
+    "yarn": ">=4.0.2",
+    "twenty": ">=2.56.0"
+  },
+  "keywords": [
+    "twenty",
+    "twenty-app",
+    "crm",
+    "leadfeeder",
+    "dealfront",
+    "website-visits"
+  ],
+  "packageManager": "yarn@4.18.1",
+  "scripts": {
+    "twenty": "twenty",
+    "lint": "oxlint -c .oxlintrc.json .",
+    "lint:fix": "oxlint --fix -c .oxlintrc.json .",
+    "typecheck": "tsgo --noEmit -p tsconfig.spec.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run --config vitest.unit.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.0.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260116.1",
+    "oxlint": "^0.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "twenty-client-sdk": "2.56.0",
+    "twenty-sdk": "2.56.0",
+    "twenty-ui": "2.56.0",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "^4.1.12"
+  }
+}
